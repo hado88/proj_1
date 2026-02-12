@@ -58,17 +58,26 @@ const HISTORICAL_API_URL = 'https://www.dhlottery.co.kr/common.do?method=getLott
 
 async function fetchLottoNumbers(drwNo) {
   try {
-    console.log(`Fetching lotto numbers for drwNo: ${drwNo}`);
+    console.log(`Attempting to fetch lotto numbers for drwNo: ${drwNo}`);
     const response = await fetch(`${HISTORICAL_API_URL}${drwNo}`);
+    
+    if (!response.ok) {
+      console.error(`Network response was not ok for drwNo ${drwNo}: ${response.status} ${response.statusText}`);
+      return null;
+    }
+    
     const data = await response.json();
-    console.log(`Response for drwNo ${drwNo}:`, data);
+    console.log(`Raw API response for drwNo ${drwNo}:`, data);
+    
     if (data.returnValue === 'success') {
       return data;
+    } else {
+      console.warn(`API returned 'fail' or unexpected data for drwNo ${drwNo}:`, data);
+      return null; 
     }
-    return null; // Return null if API indicates failure or data is not success
   } catch (error) {
-    console.error(`Error fetching lotto numbers for drwNo ${drwNo}:`, error);
-    return null; // Return null on network or parsing error
+    console.error(`Error fetching lotto numbers for drwNo ${drwNo}. This might be a CORS issue or network problem:`, error);
+    return null;
   }
 }
 
@@ -99,60 +108,11 @@ function displayHistoricalNumbers(data, container) {
   container.appendChild(drawDiv);
 }
 
-// Function to find the latest available drawing number
+// Simplified function to find the latest available drawing number for debugging
 async function findLatestDrwNo() {
-  // Start from a high number that is likely in the future
-  let currentDrwNo = 1200; // Starting point, adjust as needed
-
-  // Try to find the latest valid drwNo by incrementing until failure then decrementing
-  // A robust approach to find the latest draw number.
-  // First, find a drwNo that is likely in the future.
-  // Then, decrement to find the latest valid one.
-  // This avoids hammering the API with decrements from a fixed 'high' which might be too low.
-
-  // Step 1: Find a drwNo that is likely in the future or the current one.
-  // We can assume draws happen weekly. With today's date (Feb 12, 2026),
-  // we can calculate an approximate draw number.
-  // Lotto started on Dec 7, 2002 (drwNo 1).
-  const startDate = new Date('2002-12-07');
-  const now = new Date();
-  const weeksDiff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24 * 7));
-  let approximateDrwNo = weeksDiff + 1;
-
-  console.log(`Approximate drwNo: ${approximateDrwNo}`);
-
-  // Step 2: Search upwards from approximate DrwNo to find a "fail"
-  // This will indicate we've gone past the latest successful draw.
-  let searchDrwNo = approximateDrwNo;
-  let foundFutureDraw = false;
-  let maxSearchAttempts = 50; // Safety break
-  while (!foundFutureDraw && maxSearchAttempts > 0) {
-    const data = await fetchLottoNumbers(searchDrwNo);
-    if (!data || data.returnValue === 'fail') {
-      foundFutureDraw = true;
-      console.log(`Found future draw at drwNo: ${searchDrwNo}`);
-      break;
-    }
-    searchDrwNo++;
-    maxSearchAttempts--;
-  }
-
-  if (!foundFutureDraw) {
-    console.error("Could not determine future draw within reasonable attempts. Defaulting to a safe known draw.");
-    return 1000; // Default to a safe known draw if search fails
-  }
-
-  // Step 3: Decrement from the found future draw to get the latest successful one.
-  let latestSuccessfulDrwNo = searchDrwNo - 1;
-  while (latestSuccessfulDrwNo > 0 && !(await fetchLottoNumbers(latestSuccessfulDrwNo))) {
-    latestSuccessfulDrwNo--;
-    if (searchDrwNo - latestSuccessfulDrwNo > 10) { // Safety break
-      console.error("Could not find latest successful draw by decrementing. Defaulting to a safe known draw.");
-      return 1000; // Default to a safe known draw if search fails
-    }
-  }
-
-  return latestSuccessfulDrwNo > 0 ? latestSuccessfulDrwNo : 1000; // Ensure it's not 0
+  const knownGoodDrwNo = 1101; // Example of a known recent valid draw number (as of late 2023/early 2024)
+  console.log(`Using fixed drwNo for debugging: ${knownGoodDrwNo}`);
+  return knownGoodDrwNo;
 }
 
 
@@ -188,6 +148,8 @@ async function fetchAndDisplayHistoricalNumbers() {
       } else {
         console.warn(`Could not fetch data for drwNo: ${drwNoToFetch}`);
       }
+    } else {
+      console.warn(`Skipping drwNo ${drwNoToFetch} as it's not positive.`);
     }
   }
   console.log("Finished fetching and displaying historical numbers.");
