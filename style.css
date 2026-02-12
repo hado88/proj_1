@@ -6,6 +6,7 @@
   --button-hover-bg-color: #005f7a;
   --lottery-number-bg-color: #4CAF50;
   --lottery-number-text-color: white;
+  --historical-header-color: #555;
 }
 
 body[data-theme="dark"] {
@@ -15,6 +16,7 @@ body[data-theme="dark"] {
   --button-hover-bg-color: #777;
   --lottery-number-bg-color: #2e7d32;
   --lottery-number-text-color: white;
+  --historical-header-color: #bbb;
 }
 
 body {
@@ -76,5 +78,57 @@ button:hover {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+/* Historical Lottery Section Styles */
+#historical-lottery-section {
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid var(--text-color);
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+}
+
+#historical-lottery-section h2 {
+  color: var(--historical-header-color);
+  margin-bottom: 20px;
+}
+
+.historical-draw {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.historical-draw p {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+.historical-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.lottery-number.historical {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2em;
+  box-shadow: none;
+  background-color: #6c757d; /* A different shade for historical numbers */
+}
+
+.lottery-number.historical.bonus {
+  background-color: #ffc107; /* Bonus number color */
+  color: #333;
 }
 
