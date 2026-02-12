@@ -133,3 +133,37 @@ button:hover {
   color: #333;
 }
 
+/* Generated Numbers History Section Styles */
+#generated-numbers-history-section {
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid var(--text-color);
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+}
+
+#generated-numbers-history-section h2 {
+  color: var(--historical-header-color);
+  margin-bottom: 20px;
+}
+
+.generated-history-entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: var(--generated-history-bg-color);
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.lottery-number.generated-history {
+  width: 35px;
+  height: 35px;
+  font-size: 1em;
+  box-shadow: none;
+  background-color: #8D6E63; /* A distinct color for generated history */
+}

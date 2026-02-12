@@ -4,6 +4,27 @@ document.getElementById('generate-button').addEventListener('click', generateLot
 
 let hasGeneratedFirstTime = false; // Flag to track if numbers have been generated for the first time
 let latestFetchedDrwNo = 0; // Store the latest fetched drawing number to avoid re-fetching
+let generatedNumbersHistory = []; // Stores the last 5 sets of generated numbers
+
+function displayGeneratedNumbersHistory() {
+  const generatedNumbersContainer = document.getElementById('generated-numbers-container');
+  if (!generatedNumbersContainer) return;
+
+  generatedNumbersContainer.innerHTML = ''; // Clear previous history
+
+  generatedNumbersHistory.forEach(numbers => {
+    const historyEntryDiv = document.createElement('div');
+    historyEntryDiv.classList.add('generated-history-entry'); // New class for styling
+
+    numbers.forEach(number => {
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent = number;
+      numberSpan.classList.add('lottery-number', 'generated-history'); // New class for styling
+      historyEntryDiv.appendChild(numberSpan);
+    });
+    generatedNumbersContainer.appendChild(historyEntryDiv);
+  });
+}
 
 function generateLotteryNumbers() {
   const numbers = new Set();
@@ -20,6 +41,13 @@ function generateLotteryNumbers() {
     numberSpan.classList.add('lottery-number');
     lotteryNumbersDiv.appendChild(numberSpan);
   });
+
+  // Add generated numbers to history and update display
+  generatedNumbersHistory.unshift(sortedNumbers); // Add to the beginning (most recent first)
+  if (generatedNumbersHistory.length > 5) {
+    generatedNumbersHistory.pop(); // Keep only the last 5
+  }
+  displayGeneratedNumbersHistory(); // Update the display
 
   // Display historical numbers only after the first generation
   if (!hasGeneratedFirstTime) {
