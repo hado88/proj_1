@@ -82,7 +82,7 @@ themeToggleBtn.addEventListener('click', () => {
 });
 
 // Historical lottery numbers logic
-const HISTORICAL_API_URL = 'https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=';
+const HISTORICAL_API_URL = 'https://corsproxy.io/?https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=';
 
 async function fetchLottoNumbers(drwNo) {
   try {
