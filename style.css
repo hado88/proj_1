@@ -7,6 +7,7 @@
   --lottery-number-bg-color: #4CAF50;
   --lottery-number-text-color: white;
   --historical-header-color: #555;
+  --generated-history-bg-color: #e0e0e0;
 }
 
 body[data-theme="dark"] {
@@ -17,6 +18,7 @@ body[data-theme="dark"] {
   --lottery-number-bg-color: #2e7d32;
   --lottery-number-text-color: white;
   --historical-header-color: #bbb;
+  --generated-history-bg-color: #444;
 }
 
 body {
@@ -133,19 +135,12 @@ button:hover {
   color: #333;
 }
 
-/* Generated Numbers History Section Styles */
-#generated-numbers-history-section {
-  margin-top: 40px;
-  padding: 20px;
-  /* border-top: 1px solid var(--text-color); */ /* Removed separating line */
-  width: 80%;
-  max-width: 600px;
+/* Generated Numbers Container Styles (now inside historical section) */
+#generated-numbers-container {
+  margin-top: 30px; /* Add some space above */
+  padding-top: 20px;
+  border-top: 1px dashed var(--text-color); /* Add a dashed separator */
   text-align: center;
-}
-
-#generated-numbers-history-section h2 {
-  color: var(--historical-header-color);
-  margin-bottom: 20px;
 }
 
 .generated-history-entry {
