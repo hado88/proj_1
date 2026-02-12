@@ -2,6 +2,8 @@
 
 document.getElementById('generate-button').addEventListener('click', generateLotteryNumbers);
 
+let hasGeneratedFirstTime = false; // Flag to track if numbers have been generated for the first time
+
 function generateLotteryNumbers() {
   const numbers = new Set();
   while (numbers.size < 6) {
@@ -17,6 +19,13 @@ function generateLotteryNumbers() {
     numberSpan.classList.add('lottery-number');
     lotteryNumbersDiv.appendChild(numberSpan);
   });
+
+  // Display historical numbers only after the first generation
+  if (!hasGeneratedFirstTime) {
+    hasGeneratedFirstTime = true;
+    fetchAndDisplayHistoricalNumbers();
+    document.getElementById('historical-lottery-section').style.display = 'block'; // Make section visible
+  }
 }
 
 // Theme toggle logic
@@ -121,5 +130,5 @@ async function fetchAndDisplayHistoricalNumbers() {
   }
 }
 
-// Call to fetch and display historical numbers on page load
-fetchAndDisplayHistoricalNumbers();
+// Removed: Call to fetch and display historical numbers on page load
+// fetchAndDisplayHistoricalNumbers();
