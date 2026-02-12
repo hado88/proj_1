@@ -18,3 +18,27 @@ function generateLotteryNumbers() {
     lotteryNumbersDiv.appendChild(numberSpan);
   });
 }
+
+// Theme toggle logic
+const themeToggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+
+function applyTheme(theme) {
+  body.setAttribute('data-theme', theme);
+  themeToggleBtn.textContent = theme === 'dark' ? '화이트 모드' : '다크 모드';
+}
+
+// Load saved theme or default to light
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  applyTheme(savedTheme);
+} else {
+  applyTheme('light'); // Default theme
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  const currentTheme = body.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  localStorage.setItem('theme', newTheme);
+});

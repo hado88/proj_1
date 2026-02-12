@@ -1,4 +1,22 @@
 /* Add styles here */
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --button-bg-color: #008CBA;
+  --button-hover-bg-color: #005f7a;
+  --lottery-number-bg-color: #4CAF50;
+  --lottery-number-text-color: white;
+}
+
+body[data-theme="dark"] {
+  --background-color: #333;
+  --text-color: #f0f0f0;
+  --button-bg-color: #555;
+  --button-hover-bg-color: #777;
+  --lottery-number-bg-color: #2e7d32;
+  --lottery-number-text-color: white;
+}
+
 body {
   font-family: Arial, sans-serif;
   display: flex;
@@ -6,12 +24,14 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1 {
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 30px;
 }
 
@@ -30,8 +50,8 @@ h1 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--lottery-number-bg-color);
+  color: var(--lottery-number-text-color);
   font-size: 1.5em;
   font-weight: bold;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -40,7 +60,7 @@ h1 {
 button {
   padding: 15px 30px;
   font-size: 1.2em;
-  background-color: #008CBA;
+  background-color: var(--button-bg-color);
   color: white;
   border: none;
   border-radius: 8px;
@@ -49,6 +69,12 @@ button {
 }
 
 button:hover {
-  background-color: #005f7a;
+  background-color: var(--button-hover-bg-color);
+}
+
+.theme-toggle-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
